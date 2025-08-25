@@ -1,10 +1,13 @@
-"This file should be placed at ~/.vimrc"
-se nu ai hls et ru ic is sc cul
+se nu rnu ai hls et ru ic is sc cul
 se re=1 ts=4 sts=4 sw=4 ls=2 mouse=a
 syntax on
-hi cursorline cterm=none ctermbg=89
+hi cursorlinenr cterm=bold
+hi cursorline cterm=none ctermbg=237
+hi normal ctermbg=235
 set bg=dark
-inoremap {<CR> {<CR>}<Esc>ko<tab>
-"Select region and then type :Hash to hash your selection."
-"Useful for verifying that there aren't mistypes."
-ca Hash w !cpp -dD -P -fpreprocessed \| tr -d '[:space:]' \| md5sum \| cut -c-6
+ino {<CR> {<CR>}<Esc>ko<tab>
+xn gc :s/^/\/\/ /<CR>:noh<CR>
+xn gu :s/^\/\/\s\?//<CR>:noh<CR>
+nn gc :s/^/\/\/ /<CR>:noh<CR>
+nn gu :s/^\/\/\s\?//<CR>:noh<CR>
+gsettings set org.gnome.desktop.input-sources xkb-options "['caps:escape']"
