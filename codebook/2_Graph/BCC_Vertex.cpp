@@ -1,14 +1,14 @@
 struct BCC { // 0-base
   int n, dft, nbcc;
-  vector<int> low, dfn, bln, stk, is_ap, cir;
-  vector<vector<int>> G, bcc, nG;
+  vi low, dfn, bln, stk, is_ap, cir;
+  vvi G, bcc, nG;
   void make_bcc(int u) {
-    bcc.emplace_back(1, u); 
+    bcc.eb(1, u); 
     for (; stk.back() != u; stk.pop_back())
       bln[stk.back()] = nbcc, bcc[nbcc].pb(stk.back());
     stk.pop_back(), bln[u] = nbcc++;
   }
-  void dfs(int u, int f) {
+  void dfs(int u, int p) {
     int child = 0;
     low[u] = dfn[u] = ++dft, stk.pb(u);
     for (int v : G[u])
@@ -19,10 +19,10 @@ struct BCC { // 0-base
           is_ap[u] = 1, bln[u] = nbcc;
           make_bcc(v), bcc.back().pb(u);
         }
-      } else if (dfn[v] < dfn[u] && v != f)
+      } else if (dfn[v] < dfn[u] && v != p)
         low[u] = min(low[u], dfn[v]);
-    if (f == -1 && child < 2) is_ap[u] = 0;
-    if (f == -1 && child == 0) make_bcc(u);
+    if (p == -1 && child < 2) is_ap[u] = 0;
+    if (p == -1 && child == 0) make_bcc(u);
   }
   BCC(int _n): n(_n), dft(), nbcc(), low(n), dfn(n), bln(n), is_ap(n), G(n) {}
   void add_edge(int u, int v) {
