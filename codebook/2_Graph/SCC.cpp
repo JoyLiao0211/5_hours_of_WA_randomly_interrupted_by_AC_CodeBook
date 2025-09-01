@@ -1,7 +1,7 @@
 struct SCC { // 0-base
   int n, dft, nscc;
-  vector<int> low, dfn, bln, instack, stk;
-  vector<vector<int>> G;
+  vi low, dfn, bln, instack, stk;
+  vvi G;
   void dfs(int u) {
     low[u] = dfn[u] = ++dft;
     instack[u] = 1, stk.pb(u);
