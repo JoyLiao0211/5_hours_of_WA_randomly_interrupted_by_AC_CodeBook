@@ -6,8 +6,8 @@ void main_lorentz(const string &s, int sft = 0) {
   const string u = s.substr(0, nu), v = s.substr(nu),
         ru(u.rbegin(), u.rend()), rv(v.rbegin(), v.rend());
   main_lorentz(u, sft), main_lorentz(v, sft + nu);
-  const auto z1 = Zalgo(ru), z2 = Zalgo(v + '#' + u),
-             z3 = Zalgo(ru + '#' + rv), z4 = Zalgo(v);
+  const auto z1 = z_value(ru), z2 = z_value(v + '#' + u),
+             z3 = z_value(ru + '#' + rv), z4 = z_value(v);
   auto get_z = [](const vector<int> &z, int i) {
     return (0 <= i and i < (int)z.size()) ? z[i] : 0; };
   auto add_rep = [&](bool left, int c, int l, int k1, int k2) {
