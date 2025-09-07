@@ -273,3 +273,6 @@ TSWLatexianTemp*
 
 # macos
 *.DS_Store
+
+# temp file
+1.cpp
