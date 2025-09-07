@@ -1,9 +1,20 @@
-void hull(vector<pll> &dots) { // n=1 => ans = {}
-  sort(dots.begin(), dots.end());
-  vector<pll> ans(1, dots[0]);
-  for (int ct = 0; ct < 2; ++ct, reverse(ALL(dots)))
-    for (int i = 1, t = SZ(ans); i < SZ(dots); ans.pb(dots[i++]))
-      while (SZ(ans) > t && ori(ans[SZ(ans) - 2], ans.back(), dots[i]) <= 0) 
-        ans.pop_back();
-  ans.pop_back(), ans.swap(dots);
+vector<int> getConvexHull(vector<pdd>& pts){
+	vector<int> id(SZ(pts));
+	iota(iter(id), 0);
+	sort(iter(id), [&](int x, int y){ return pts[x] < pts[y]; });
+	vector<int> hull;
+	for(int tt = 0; tt < 2; tt++){
+		int sz = SZ(hull);
+		for(int j : id){
+			pdd p = pts[j];
+			while(SZ(hull) - sz >= 2 && 
+					cross(pts[hull.back()] - pts[hull[SZ(hull) - 2]], 
+						p - pts[hull[SZ(hull) - 2]]) <= 0)
+				hull.pop_back();
+			hull.pb(j);
+		}
+		hull.pop_back();
+		reverse(iter(id));
+	}
+	return hull;
 }
