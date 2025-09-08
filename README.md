@@ -17,3 +17,7 @@ Or, you can find the file [here](https://github.com/brianbbsu/BBQube/blob/codebo
 - [?] BCC
     - 肉眼看起來沒問題owo
     - 本來想用 [CF 2136E](https://codeforces.com/contest/2136/problem/E) 測 但這題太難了
+
+### 8_Geometry
+- Hearts
+    - circenter 用 [CF 1C](https://codeforces.com/contest/1/problem/C) 測過了
