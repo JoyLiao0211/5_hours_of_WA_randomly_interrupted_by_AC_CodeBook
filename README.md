@@ -9,6 +9,9 @@ Or, you can find the file [here](https://github.com/brianbbsu/BBQube/blob/codebo
 
 ## Status
 
+### 1_Basic
+- 加了 `cmp.cpp` 因為我不會
+
 ### 2_Graph
 
 - [v] SCC
