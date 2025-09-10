@@ -6,7 +6,7 @@ pair<pdd, ld> circumcenter(pdd a, pdd b, pdd c){
     return {cent, abs(a-cent)};
 }
 mt19937 rng(950223);  // O(n) expected time
-pair<pdd, ld> MinimumEnclosingCircle(vector<pdd> &pts){
+pair<pdd, ld> minimumEnclosingCircle(vector<pdd> &pts){
 	shuffle(all(pts), rng);
 	pdd c = pts[0];
 	ld r = 0;

@@ -1,22 +1,31 @@
-void rotatingSweepLine(vector<pii> &ps) {
-  int n = SZ(ps), m = 0;
-  vector<int> id(n), pos(n);
-  vector<pii> line(n * (n - 1));
-  for (int i = 0; i < n; ++i)
-    for (int j = 0; j < n; ++j)
-      if (i != j) line[m++] = pii(i, j);
-  sort(ALL(line), [&](pii a, pii b) {
-    return cmp(ps[a.Y] - ps[a.X], ps[b.Y] - ps[b.X]);
-  }); // cmp(): polar angle compare
-  iota(ALL(id), 0);
-  sort(ALL(id), [&](int a, int b) {
-    if (ps[a].Y != ps[b].Y) return ps[a].Y < ps[b].Y;
-    return ps[a] < ps[b];
-  }); // initial order, since (1, 0) is the smallest
-  for (int i = 0; i < n; ++i) pos[id[i]] = i;
-  for (int i = 0; i < m; ++i) {
-    auto l = line[i];
+struct Event {
+  pll d; int u, v;
+  bool operator<(const Event &b) const {
+    int ret = cmp(d, b.d, false);
+    return ret == -1 ? false : ret; } // no tie-break
+};
+void rotatingSweepLine(const vector<pll> &p) {
+  const int n = SZ(p);
+  vector<Event> e; e.reserve(n * (n - 1));
+  for (int i = 0; i < n; i++)
+    for (int j = 0; j < n; j++) // pos[i] < pos[j] when the event occurs
+      if (i != j) e.pb(p[j] - p[i], i, j);
+  sort(all(e));
+  vector<int> ord(n), pos(n);
+  iota(all(ord), 0);
+  sort(all(ord), [&](int i, int j) { // initial order
+      return p[i].Y != p[j].Y ? p[i].Y < p[j].Y : p[i].X < p[j].X; });
+  for (int i = 0; i < n; i++) pos[ord[i]] = i;
+  // initialize
+  for (int i = 0, j = 0; i < SZ(e); i = j) {
     // do something
-    tie(pos[l.X], pos[l.Y], id[pos[l.X]], id[pos[l.Y]]) = make_tuple(pos[l.Y], pos[l.X], l.Y, l.X);
+    vector<pii> tmp;
+    for (; j < SZ(e) && !(e[i] < e[j]); j++)
+      tmp.pb(pii(e[j].u, e[j].v));
+    sort(all(tmp), [&](pii x, pii y){ 
+        return pii(pos[x.fi], pos[x.se]) < pii(pos[y.fi], pos[y.se]); });
+    for (auto [x, y] : tmp) // pos[x] + 1 == pos[y]
+      tie(ord[pos[x]], ord[pos[y]], pos[x], pos[y]) = 
+        make_tuple(ord[pos[y]], ord[pos[x]], pos[y], pos[x]);
   }
 }

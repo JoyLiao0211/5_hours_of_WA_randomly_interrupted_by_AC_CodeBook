@@ -10,15 +10,15 @@ convex_hull_3D(const vector<Point> &_P): res(), P(_P) {
   int n = SZ(P);
   if (n <= 2) return; // be careful about edge case
   // ensure first 4 points are not coplanar
-  swap(P[1], *find_if(ALL(P), [&](auto p) { return sign(abs2(P[0] - p)) != 0; }));
-  swap(P[2], *find_if(ALL(P), [&](auto p) { return sign(abs2(cross3(p, P[0], P[1]))) != 0; }));
-  swap(P[3], *find_if(ALL(P), [&](auto p) { return sign(volume(P[0], P[1], P[2], p)) != 0; }));
+  swap(P[1], *find_if(iter(P), [&](auto p) { return sgn(abs2(P[0] - p)) != 0; }));
+  swap(P[2], *find_if(iter(P), [&](auto p) { return sgn(abs2(cross3(p, P[0], P[1]))) != 0; }));
+  swap(P[3], *find_if(iter(P), [&](auto p) { return sgn(volume(P[0], P[1], P[2], p)) != 0; }));
   vector<vector<int>> flag(n, vector<int>(n));
   res.emplace_back(0, 1, 2); res.emplace_back(2, 1, 0);
   for (int i = 3; i < n; ++i) {
     vector<Face> next;
     for (auto f : res) {
-      int d = sign(volume(P[f.a], P[f.b], P[f.c], P[i]));
+      int d = sgn(volume(P[f.a], P[f.b], P[f.c], P[i]));
       if (d <= 0) next.pb(f);
       int ff = (d > 0) - (d < 0);
       flag[f.a][f.b] = flag[f.b][f.c] = flag[f.c][f.a] = ff;
@@ -34,9 +34,9 @@ convex_hull_3D(const vector<Point> &_P): res(), P(_P) {
   }
 }
 bool same(Face s, Face t) {
-  if (sign(volume(P[s.a], P[s.b], P[s.c], P[t.a])) != 0) return 0;
-  if (sign(volume(P[s.a], P[s.b], P[s.c], P[t.b])) != 0) return 0;
-  if (sign(volume(P[s.a], P[s.b], P[s.c], P[t.c])) != 0) return 0;
+  if (sgn(volume(P[s.a], P[s.b], P[s.c], P[t.a])) != 0) return 0;
+  if (sgn(volume(P[s.a], P[s.b], P[s.c], P[t.b])) != 0) return 0;
+  if (sgn(volume(P[s.a], P[s.b], P[s.c], P[t.c])) != 0) return 0;
   return 1;
 }
 int polygon_face_num() {
