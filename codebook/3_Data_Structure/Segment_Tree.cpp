@@ -1,4 +1,4 @@
-struct Segment_Tree {
+struct Segment_Tree { //懶標動態開點
   struct node {
     int data, lazy;
     node *l, *r;
