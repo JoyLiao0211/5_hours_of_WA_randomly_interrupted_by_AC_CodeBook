@@ -276,3 +276,6 @@ TSWLatexianTemp*
 
 # temp file
 1.cpp
+
+# vscode
+.vscode/
