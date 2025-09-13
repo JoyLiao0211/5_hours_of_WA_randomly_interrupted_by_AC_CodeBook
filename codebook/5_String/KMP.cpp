@@ -1,14 +1,21 @@
-int F[MAXN];
-vector<int> match(string A, string B) {
-  vector<int> ans;
-  F[0] = -1, F[1] = 0;
-  for (int i = 1, j = 0; i < SZ(B); F[++i] = ++j) {
-    if (B[i] == B[j]) F[i] = F[j]; // optimize
-    while (j != -1 && B[i] != B[j]) j = F[j];
-  }
-  for (int i = 0, j = 0; i < SZ(A); ++i) {
-    while (j != -1 && A[i] != B[j]) j = F[j];
-    if (++j == SZ(B)) ans.pb(i + 1 - j), j = F[j];
-  }
-  return ans;
+vector<int> fail_func(const string &s) {
+    int n = s.size();
+    vector<int> f(n);
+    for(int i=1; i<n; ++i) {
+        int j = f[i-1];
+        while(j > 0 && s[i] != s[j]) j = f[j-1];
+        f[i] = j + (s[i] == s[j]);
+    }
+    return f;
+}
+int kmp_count(const string &s, const string &p) {
+    int n = s.size(), m = p.size();
+    vector<int> f = fail_func(p+"$");
+    int cnt = 0, j = 0;
+    for(int i=0; i<n; ++i) {
+        while(j > 0 && s[i] != p[j]) j = f[j-1];
+        j += (s[i] == p[j]);
+        if(j == m) cnt++;
+    }
+    return cnt;
 }

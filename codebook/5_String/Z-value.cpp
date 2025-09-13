@@ -1,5 +1,5 @@
 vi z_value(string s) {
-    int n = sz(s), b = 0;
+    int n = s.size(), b = 0;
     vi z(n);
     for(int i=1; i<n; ++i) {
         if(z[b]+b < i) z[i] = 0;
