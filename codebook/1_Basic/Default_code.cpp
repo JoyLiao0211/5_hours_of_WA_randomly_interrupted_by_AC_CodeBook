@@ -2,7 +2,7 @@
 #define fi first
 #define se second
 #define all(a) a.begin(),a.end()
-#define SZ(a) int(a.size())
+#define SZ(a) (int)(a.size())
 #define pb push_back
 #define eb emplace_back
 #define rep(i,a,b) for(int i=a,Z=b;i<Z;++i)
