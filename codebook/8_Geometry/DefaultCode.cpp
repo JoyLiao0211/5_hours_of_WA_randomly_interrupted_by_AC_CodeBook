@@ -21,9 +21,9 @@ ld dot(pdd a, pdd b)
 ld cross(pdd a, pdd b)
 { return a.X * b.Y - a.Y * b.X; }
 ld abs2(pdd v)
-{ return v.X * v.X + v.Y * v.Y; };
+{ return dot(v,v); };
 ld abs(pdd v)
-{ return sqrt(abs2(v)); };
+{ return sqrt(dot(v,v)); };
 int sgn(ld v)
 { return v > 0 ? 1 : (v < 0 ? -1 : 0); }
 // int sgn(ld v){ return v > eps ? 1 : ( v < -eps ? -1 : 0); }
