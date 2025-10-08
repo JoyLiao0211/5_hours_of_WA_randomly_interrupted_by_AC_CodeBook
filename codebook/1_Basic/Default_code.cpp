@@ -25,7 +25,6 @@ template<typename T,typename ...U> void _dbg(T x,U ...y){cerr<<x<<", ";_dbg(y...
 #endif
 const int INF = 0x3f3f3f3f;
 const ll LINF = 0x3f3f3f3f3f3f3f3f;
-const int MOD = 998244353;
 
 void foo(){
     
