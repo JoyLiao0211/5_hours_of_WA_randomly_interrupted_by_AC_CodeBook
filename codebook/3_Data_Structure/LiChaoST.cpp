@@ -1,32 +1,55 @@
-struct L {
-  ll m, k, id;
-  L() : id(-1) {}
-  L(ll a, ll b, ll c) : m(a), k(b), id(c) {}
-  ll at(ll x) { return m * x + k; }
-};
-class LiChao { // maintain max
-private:
-  int n; vector<L> nodes;
-  void insert(int l, int r, int rt, L ln) {
-    int m = (l + r) >> 1;
-    if (nodes[rt].id == -1)
-      return nodes[rt] = ln, void();
-    bool atLeft = nodes[rt].at(l) < ln.at(l);
-    if (nodes[rt].at(m) < ln.at(m))
-      atLeft ^= 1, swap(nodes[rt], ln);
-    if (r - l == 1) return;
-    if (atLeft) insert(l, m, rt << 1, ln);
-    else insert(m, r, rt << 1 | 1, ln);
-  }
-  ll query(int l, int r, int rt, ll x) {
-    int m = (l + r) >> 1; ll ret = -INF;
-    if (nodes[rt].id != -1) ret = nodes[rt].at(x);
-    if (r - l == 1) return ret;
-    if (x < m) return max(ret, query(l, m, rt << 1, x));
-    return max(ret, query(m, r, rt << 1 | 1, x));
-  }
-public:
-  LiChao(int n_) : n(n_), nodes(n * 4) {}
-  void insert(L ln) { insert(0, n, 1, ln); }
-  ll query(ll x) { return query(0, n, 1, x); }
+ll INF = 3e18;
+struct LiChaoTree { // max
+    using L = pair<ll, ll>;  // l.first * x + l.second
+    int sz;
+    vector<L> data;
+    vi xs;
+    static ll eval(L l, ll x) { return l.first * x + l.second; }
+    LiChaoTree(vi _xs) : xs(_xs) {
+        int n = (int)(xs.size());
+        int lg = 1;
+        while ((1 << lg) < n) lg++;
+        sz = 1 << lg;
+        while ((int)(xs.size()) < sz) xs.push_back(1e9);
+        data = vector<L>(2 * sz, L(0, INF));
+    }
+    void add(L line, int l, int r) {
+        l = lower_bound(xs.begin(), xs.end(), l) - xs.begin();
+        r = lower_bound(xs.begin(), xs.end(), r) - xs.begin();
+        add(line, l, r, 0, sz, 1);
+    }
+    ll query(ll x) {
+        int k = (int)(lower_bound(xs.begin(), xs.end(), x) - xs.begin());
+        assert(0 <= k && k < (int)(xs.size()) && xs[k] == x);
+        k += sz;
+        ll ans = INF;
+        while (k >= 1) {
+            ans = min(ans, eval(data[k], x));
+            k >>= 1;
+        }
+        return ans;
+    }
+
+  private:
+    void add(L line, int ql, int qr, int l, int r, int k) {
+        if (qr <= l || r <= ql) {
+            return;
+        } else if (ql <= l && r <= qr) {
+            int mid = (l + r) / 2;
+            ll mx = xs[mid];
+            if (eval(line, mx) < eval(data[k], mx)) {
+                swap(line, data[k]);
+            }
+            if (l + 1 == r) return;
+            if (line.first > data[k].first) {
+                add(line, ql, qr, l, mid, 2 * k);
+            } else if (line.first < data[k].first) {
+                add(line, ql, qr, mid, r, 2 * k + 1);
+            }
+        } else {
+            int mid = (l + r) / 2;
+            add(line, ql, qr, l, mid, 2 * k);
+            add(line, ql, qr, mid, r, 2 * k + 1);
+        }
+    }
 };
