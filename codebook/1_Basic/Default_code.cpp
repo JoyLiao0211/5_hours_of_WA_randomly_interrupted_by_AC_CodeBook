@@ -13,8 +13,8 @@ using ll = long long;
 using pii = pair<int,int>;
 using vi = vector<int>;
 using vvi = vector<vi>;
-using vp=vector<pii>;
-using vvp=vector<vp>;
+using vp = vector<pii>;
+using vvp = vector<vp>;
 
 void foo(){
     
