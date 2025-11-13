@@ -1,4 +1,4 @@
-vector<Line> CCtan(const Cir& c1 , const Cir& c2 , int sign1){
+vector<Line> CCtan(const Cir& c1, const Cir& c2, int sign1){
   // sign1 = 1 for outer tang, -1 for inter tang
   vector<Line> ret;
   double d_sq = abs2(c1.O - c2.O);
