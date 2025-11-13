@@ -15,3 +15,9 @@ bool Miller_Rabin(ll a, ll n) {
     if ((x = mul(x, x, n)) == n - 1) return 1;
   return 0;
 }
+bool prime(ll n){ // SCOPE HASH
+  vector<ll> tmp = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};
+  for(ll i : tmp)
+    if(!Miller_Rabin(i, n)) return false;
+  return true;
+}
