@@ -1,16 +1,17 @@
 struct DSU {
-  vector<int> arr;
-  DSU(int n = 0): arr(n) {
-    iota(ALL(arr), 0);
-  }
-  int boss(int x) {
-    if (arr[x] == x) return x;
-    return arr[x] = boss(arr[x]);
-  }
-  bool Union(int x, int y) {
-    x = boss(x), y = boss(y);
-    if (x == y) return 0;
-    arr[y] = x;
-    return 1;
-  }
+    vector<int> p, rk;
+    DSU(int n): p(n), rk(n, 1) {
+        iota(all(p), 0);
+    }
+    int find(int x) {
+        return p[x] == x ? x : p[x] = find(p[x]);
+    }
+    bool merge(int x, int y) {
+        x = find(x), y = find(y);
+        if (x == y) return false;
+        if (rk[x] < rk[y]) swap(x, y);
+        p[y] = x;
+        if (rk[x] == rk[y]) rk[x]++;
+        return true;
+    }
 };
